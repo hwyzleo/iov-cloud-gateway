@@ -2,7 +2,6 @@ package net.hwyz.iov.cloud.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +42,7 @@ public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFac
             String clientId = exchange.getRequest().getHeaders().getFirst(CLIENT_ID.value);
             String token = exchange.getRequest().getHeaders().getFirst(TOKEN.value);
             if (StrUtil.isBlank(clientId) || StrUtil.isBlank(token)) {
+                logger.debug("ClientId[{}]Token[{}]", clientId, token);
                 throw new RuntimeException("缺失ClientId或Token");
             }
             Mono<JSONObject> responseMono = webClientBuilder.build()
